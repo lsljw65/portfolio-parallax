@@ -19,14 +19,10 @@ $(document).ready(function(){
 
     function Position(){
         $webWidth=$(".web-box").width();
-        $webPosition=($(window).width()-$webWidth)/2
-        // console.log("$webWidth : "+$webWidth)
-        // console.log("webPosition : "+$webPosition)
-        // $(".web-box").css({
-        //     left:$webPosition
-        // })
-        $webMoveLeft=$(window).width();
-        // console.log("$webMoveLeft : "+$webMoveLeft)
+        $webPosition=(($(window).width()-$webWidth)/2)/$(window).width()*100
+        console.log("포지션 : "+$webPosition+"%")
+        $webMoveLeft=$(window).width()/$(window).width()*100;
+        console.log("$webMoveLeft : "+$webMoveLeft)
         $webTop=$("section").eq(1).offset().top+$(".web-box").offset().top
         console.log("$webTop : "+$webTop);
     }
@@ -56,19 +52,17 @@ $(document).ready(function(){
                     transform:"translate("+-$fontSize+"%"+",0px)",
                     "opacity":$opacity
                 })
-                console.log("yScroll/10 : "+(yScroll/10))
-                // console.log("(yScroll+1)/3000 : "+((yScroll+1)/3000))
-                console.log("$opacity : "+$opacity)
+                
                 
             }
             if(yScroll+500>$("section").eq(1).offset().top){
                 // console.log("동작");
-                $webMoveLeft-=25
+                $webMoveLeft-=1
                 if($webMoveLeft<=$webPosition){
                     $webMoveLeft=$webPosition; 
                 }
-                $(".web-box").addClass("active").css({
-                    left:$webMoveLeft
+                $(".web-box").css({
+                    left:$webMoveLeft+"%"
                 })
                 console.log("webPosition : "+$webPosition)
                 console.log("webMoveLeft : "+$webMoveLeft)
@@ -91,16 +85,15 @@ $(document).ready(function(){
                     transform:"translate("+-$fontSize+"%"+",0px)",
                     "opacity":$opacity
                 })
-                console.log("$opacity : "+$opacity)
             }
             if(yScroll<$webTop+500){
                 console.log("동작");
-                $webMoveLeft+=25
-                if($webMoveLeft>=$(window).width()){
-                    $webMoveLeft=$(window).width();
+                $webMoveLeft+=1
+                if($webMoveLeft>=100){
+                    $webMoveLeft=100;
                 }
                 $(".web-box").css({
-                    left:$webMoveLeft
+                    left:$webMoveLeft+"%"
                 })
                 console.log("webPosition : "+$webPosition)
                 console.log("webMoveLeft : "+$webMoveLeft)
@@ -108,9 +101,6 @@ $(document).ready(function(){
 
         }
         $lastScroll=yScroll;
-        // console.log("스크롤 탑 : "+yScroll);
-        // console.log("$fontSize : "+$fontSize)
-        
         
     })
     
