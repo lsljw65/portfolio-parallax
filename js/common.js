@@ -1,29 +1,32 @@
 $(document).ready(function(){
     var yScroll=0;
     var $fontSize=0;
-    var $opacity=1;
+    var $opacity=1, $webOpacity=0;
     var $lastScroll;
     var $windowWidth;
     var $webWidth;
     var $webPosition;
     var $windowHeight;
     var $webMoveLeft;
-    var $webTop;
+    var $lastWebLeft;
+    var $webTop, $webSectionTop;
     $windowHeight=$(window).height();
     $("section").css({
-        height:$windowHeight
-    })
-    $("#about, #web").css({
         height:2000
     })
+    
 
     function Position(){
-        $webWidth=$(".web-box").width();
+        $webSectionTop=$("section").eq(1).offset().top
+        $webWidth=$(".web-container1").width();
+        $winodwHeight=$(window).height();
         $webPosition=(($(window).width()-$webWidth)/2)/$(window).width()*100
         console.log("포지션 : "+$webPosition+"%")
-        $webMoveLeft=$(window).width()/$(window).width()*100;
+        // $webMoveLeft=$(window).width()/$(window).width()*100;
+        $webMoveLeft=parseInt( $(".web-container1").css("left") )/$(window).width()*100;
+        $lastWebLeft=$webMoveLeft;
         console.log("$webMoveLeft : "+$webMoveLeft)
-        $webTop=$("section").eq(1).offset().top+$(".web-box").offset().top
+        $webTop=$("section").eq(1).offset().top+$(".web-container1").offset().top
         console.log("$webTop : "+$webTop);
     }
     Position();
@@ -55,17 +58,28 @@ $(document).ready(function(){
                 
                 
             }
-            if(yScroll+500>$("section").eq(1).offset().top){
+            if(yScroll+500>$webSectionTop+500){
                 // console.log("동작");
                 $webMoveLeft-=1
+                $webOpacity+=0.03
+
                 if($webMoveLeft<=$webPosition){
                     $webMoveLeft=$webPosition; 
+                    $webOpacity=1;
                 }
-                $(".web-box").css({
-                    left:$webMoveLeft+"%"
+                $(".web-container1").css({
+                    left:$webMoveLeft+"%",
+                    opacity:$webOpacity
                 })
+                $(".web-container2").css({
+                    left:($lastWebLeft-$webMoveLeft)+"%",
+                    opacity:$webOpacity
+                })
+                
                 console.log("webPosition : "+$webPosition)
                 console.log("webMoveLeft : "+$webMoveLeft)
+                console.log("$webPosition-$webMoveLeft : "+($lastWebLeft-$webMoveLeft))
+                console.log("webOpacity : "+$webOpacity)
             }        
             
 
@@ -89,11 +103,19 @@ $(document).ready(function(){
             if(yScroll<$webTop+500){
                 console.log("동작");
                 $webMoveLeft+=1
-                if($webMoveLeft>=100){
-                    $webMoveLeft=100;
+                $webOpacity-=0.03;
+
+                if($webMoveLeft>=$lastWebLeft){
+                    $webMoveLeft=$lastWebLeft;
+                    $webOpacity=0;
                 }
-                $(".web-box").css({
-                    left:$webMoveLeft+"%"
+                $(".web-container1").css({
+                    left:$webMoveLeft+"%",
+                    opacity:$webOpacity
+                })
+                $(".web-container2").css({
+                    left:($lastWebLeft-$webMoveLeft)+"%",
+                    opacity:$webOpacity
                 })
                 console.log("webPosition : "+$webPosition)
                 console.log("webMoveLeft : "+$webMoveLeft)

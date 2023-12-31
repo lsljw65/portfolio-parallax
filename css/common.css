@@ -94,7 +94,42 @@ header{
     /* background:#ccc; */
     background:url(../images/m-r1.jpg) no-repeat center fixed;
     background-size:cover;
+    height:4000px !important;
 }
+#web h2{
+    position:absolute;
+    top:70px;
+    left:50%;
+    transform:translate(-50%,0);
+    font-size:100px;
+    color:white;
+    text-shadow:5px 5px 0px black;
+}
+.web-container1,
+.web-container2{
+    width:80%;
+    max-width:1000px;
+    position:fixed;
+    display:flex;
+    justify-content: space-around;
+    top:30%;
+    left:50%;
+    opacity:0;
+}
+.web-container2{
+    top:60%;
+    left:0
+}
+.web-box{
+    width:22%;
+    padding:10px;
+    border-radius:5px;
+    border:2px solid white;
+}
+.web-box img{
+    width:100%;
+}
+
 #banner{
     background:#ddd;
 }
@@ -107,35 +142,29 @@ header{
     background:#aaa;
 }
 
-.web-box{
-    position:fixed;
-    width:50%;
-    max-width:500px;
-    height:50%;
-    max-height:500px;
-    background-color:#c2a9a9;
-    top:50%;
-    left:100%;
-    transform:translate(0, -50%)
-}
+
+
 
 @media screen and (min-width:450px){
     
 }
 @media screen and (min-width:640px){
-    .first-box{
+    .first-box,
+    #web{
         font-size:14px;
     }
     
 
 }
 @media screen and (min-width:768px){
-    .first-box{
+    .first-box,
+    #web{
         font-size:14px;
     }
 }
 @media screen and (min-width:1024px){
-    .first-box{
+    .first-box,
+    .web{
         font-size:16px;
     }
     .first-box h2{
