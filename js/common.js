@@ -61,11 +61,11 @@ $(document).ready(function(){
         $webSectionTop=$("section").eq(1).offset().top
         $webWidth=$(".web-container1").width();
         $winodwHeight=$(window).height();
-        $webPosition=(($(window).width()-$webWidth)/2)/$(window).width()*100
+        $webPosition=(($(window).width()-$webWidth)/2)/$(window).width()*100-5
         // console.log("포지션 : "+$webPosition+"%")
         // $webMoveLeft=$(window).width()/$(window).width()*100;
         $webMoveLeft=parseInt( $(".web-container1").css("left") )/$(window).width()*100;
-        $lastWebLeft=$webMoveLeft;
+        $webMoveRight=parseInt( $(".web-container2").css("right") )/$(window).width()*100;
         // console.log("$webMoveLeft : "+$webMoveLeft)
         $webTop=$("section").eq(1).offset().top+$(".web-container1").offset().top
         // console.log("$webTop : "+$webTop);
@@ -101,11 +101,12 @@ $(document).ready(function(){
             }
             if(yScroll+500>$webSectionTop+500){
                 // console.log("동작");
-                $webMoveLeft-=1
+                $webMoveLeft-=1;
+                $webMoveRight-=1;
                 $webOpacity+=0.03
 
-                if($webMoveLeft<=$webPosition){
-                    $webMoveLeft=$webPosition; 
+                if($webMoveLeft<=$webPosition || $webMoveRight<=$webPosition ){
+                    $webMoveLeft=$webMoveRight=$webPosition; 
                     $webOpacity=1;
                 }
                 $(".web-container1").css({
@@ -113,7 +114,7 @@ $(document).ready(function(){
                     opacity:$webOpacity
                 })
                 $(".web-container2").css({
-                    left:($lastWebLeft-$webMoveLeft)+"%",
+                    right:$webMoveRight+"%",
                     opacity:$webOpacity
                 })
                 
@@ -144,6 +145,7 @@ $(document).ready(function(){
             if(yScroll<$webTop+500){
                 // console.log("동작");
                 $webMoveLeft+=1
+                $webMoveRight+=1
                 $webOpacity-=0.03;
 
                 if($webMoveLeft>=$lastWebLeft){
@@ -155,7 +157,7 @@ $(document).ready(function(){
                     opacity:$webOpacity
                 })
                 $(".web-container2").css({
-                    left:($lastWebLeft-$webMoveLeft)+"%",
+                    right:$webMoveRight+"%",
                     opacity:$webOpacity
                 })
                 // console.log("webPosition : "+$webPosition)

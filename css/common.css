@@ -177,7 +177,8 @@ header{
 }
 .web-container2{
     top:60%;
-    left:0
+    left:inherit;
+    right:50%;
 }
 .web-box{
     width:22%;
