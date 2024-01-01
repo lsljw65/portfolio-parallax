@@ -41,7 +41,12 @@ $(document).ready(function(){
                 },1000)
             }else{
                 console.log("이전요소")
-                $hash=$(this.hash).offset().top-$(this.hash).prev().height()
+                if(index==0){
+                    $hash=0
+                }else{
+                    $hash=$(this.hash).offset().top-$(this.hash).prev().height()
+                }
+                
                 $("html,body").stop().animate({
                     scrollTop:$hash
                 },1000)
@@ -55,18 +60,33 @@ $(document).ready(function(){
             $navBool=true;
         })
     });
-    
+    $("section").css({
+        height:3000
+    })
+    $(".web-container1, .web-container2").css({
+        width:"80%",
+        "max-width":1000,
+        opacity:0,
+        left:"50%"
+    })
+    $(".web-container2").css({
+        left:"inherit",
+        right:"60%"
+    })
 ////////////////////////////////////////////////////////////////////
     function Position(){
         $webSectionTop=$("section").eq(1).offset().top
+        console.log("section1 : "+$webSectionTop)
         $webWidth=$(".web-container1").width();
-        $winodwHeight=$(window).height();
+        console.log(".web-container1 : "+$webWidth)
+        $windowHeight=$(window).height();
         $webPosition=(($(window).width()-$webWidth)/2)/$(window).width()*100-5
-        // console.log("포지션 : "+$webPosition+"%")
+        console.log("포지션 : "+$webPosition+"%")
         // $webMoveLeft=$(window).width()/$(window).width()*100;
-        $webMoveLeft=parseInt( $(".web-container1").css("left") )/$(window).width()*100;
-        $webMoveRight=parseInt( $(".web-container2").css("right") )/$(window).width()*100;
-        // console.log("$webMoveLeft : "+$webMoveLeft)
+        $webMoveLeft=parseInt( $(".web-container1").css("left") );
+        $webMoveRight=parseInt( $(".web-container2").css("right") );
+        console.log("$webMoveLeft : "+$webMoveLeft)
+        console.log("$webMoveRight : "+$webMoveRight)
         $webTop=$("section").eq(1).offset().top+$(".web-container1").offset().top
         // console.log("$webTop : "+$webTop);
     }
@@ -99,14 +119,15 @@ $(document).ready(function(){
                 
                 
             }
-            if(yScroll+500>$webSectionTop+500){
+            if(yScroll+500>$webSectionTop){
                 // console.log("동작");
                 $webMoveLeft-=1;
                 $webMoveRight-=1;
                 $webOpacity+=0.03
 
-                if($webMoveLeft<=$webPosition || $webMoveRight<=$webPosition ){
-                    $webMoveLeft=$webMoveRight=$webPosition; 
+                if($webMoveLeft<=$webPosition  ){
+                    $webMoveLeft=$webPosition;
+                    $webMoveRight=$webPosition; 
                     $webOpacity=1;
                 }
                 $(".web-container1").css({
@@ -118,10 +139,9 @@ $(document).ready(function(){
                     opacity:$webOpacity
                 })
                 
-                // console.log("webPosition : "+$webPosition)
-                // console.log("webMoveLeft : "+$webMoveLeft)
-                // console.log("$webPosition-$webMoveLeft : "+($lastWebLeft-$webMoveLeft))
-                // console.log("webOpacity : "+$webOpacity)
+                console.log("webPosition : "+$webPosition)
+                console.log("webMoveLeft : "+$webMoveLeft)
+                console.log("webOpacity : "+$webOpacity)
             }        
             
 
@@ -142,7 +162,7 @@ $(document).ready(function(){
                     "opacity":$opacity
                 })
             }
-            if(yScroll<$webTop+500){
+            if(yScroll+500<$webSectionTop+500){
                 // console.log("동작");
                 $webMoveLeft+=1
                 $webMoveRight+=1
