@@ -42,7 +42,8 @@ $(document).ready(function(){
             }else{
                 console.log("이전요소")
                 if(index==0){
-                    $hash=0
+                    $hash=0;
+                    $webOpacity=0;
                 }else{
                     $hash=$(this.hash).offset().top-$(this.hash).prev().height()
                 }
@@ -84,6 +85,7 @@ $(document).ready(function(){
         console.log("포지션 : "+$webPosition+"%")
         // $webMoveLeft=$(window).width()/$(window).width()*100;
         $webMoveLeft=parseInt( $(".web-container1").css("left") );
+        $lastWebLeft=$webMoveLeft;
         $webMoveRight=parseInt( $(".web-container2").css("right") );
         console.log("$webMoveLeft : "+$webMoveLeft)
         console.log("$webMoveRight : "+$webMoveRight)
@@ -171,6 +173,7 @@ $(document).ready(function(){
                 if($webMoveLeft>=$lastWebLeft){
                     $webMoveLeft=$lastWebLeft;
                     $webOpacity=0;
+                    console.log("크다")
                 }
                 $(".web-container1").css({
                     left:$webMoveLeft+"%",
@@ -180,8 +183,9 @@ $(document).ready(function(){
                     right:$webMoveRight+"%",
                     opacity:$webOpacity
                 })
-                // console.log("webPosition : "+$webPosition)
-                // console.log("webMoveLeft : "+$webMoveLeft)
+                console.log("webPosition : "+$webPosition)
+                console.log("webMoveLeft : "+$webMoveLeft)
+                console.log("webOpacity : "+$webOpacity)
             }
 
         }
