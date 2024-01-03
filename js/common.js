@@ -28,6 +28,20 @@ $(document).ready(function(){
         }
     })
 
+    $(".section").css({
+        height:3000
+    })
+    $(".web-container1, .web-container2").css({
+        width:$(window).width()*0.8,
+        "max-width":1000,
+        opacity:0,
+        left:$(window).width()*0.5
+    })
+    $(".web-container2").css({
+        left:"inherit",
+        right:$(window).width()*0.6
+    })
+
     // 해시 애니메이션
     var $position=0;
     $(".nav-list a").each(function(index){
@@ -35,45 +49,61 @@ $(document).ready(function(){
             
             if($position<=index){
                 console.log("다음요소, 현재요소")
-                $hash=$(this.hash).offset().top
+                if(index>$position){
+                    $webOpacity=1;
+                }
+                $hash=$(this.hash).offset().top;
+                $webMoveLeft=$webPosition
+                $(".web-container1").css({
+                    left:$webPosition,
+                    opacity:0
+                })
+                $(".web-container2").css({
+                    right:$webPosition+100,
+                    opacity:0
+                })
                 $("html,body").stop().animate({
                     scrollTop:$hash+($(this.hash).height()/2)
                 },1000)
             }else{
                 console.log("이전요소")
                 if(index==0){
-                    $hash=0;
+                    $hash=0
                     $webOpacity=0;
                 }else{
-                    $hash=$(this.hash).offset().top-$(this.hash).prev().height()
+                    var count=$position-index
+                    $hash=$(this.hash).offset().top-($(this.hash).prev().height()*count)
+                    
                 }
-                
+                $webMoveLeft=$webPosition
+                console.log("hash $webMoveLeft : "+$webMoveLeft)
+                $(".web-container1").css({
+                    left:$webPosition,
+                    opacity:1
+                })
+                $(".web-container2").css({
+                    right:$webPosition+100,
+                    opacity:1
+                })
                 $("html,body").stop().animate({
                     scrollTop:$hash
                 },1000)
             }
             $position=index
-            
-            
-            $(".nav-list a").removeClass("clickActive")
-            $(this).addClass("clickActive")
-            $(".nav-list").removeClass("nav-position")
+            // $(".nav-list a").removeClass("clickActive")
+            // $(this).addClass("clickActive")
+            // $(".nav-list").removeClass("nav-position")
+            $active($position)
             $navBool=true;
         })
     });
-    $("section").css({
-        height:3000
-    })
-    $(".web-container1, .web-container2").css({
-        width:"80%",
-        "max-width":1000,
-        opacity:0,
-        left:"50%"
-    })
-    $(".web-container2").css({
-        left:"inherit",
-        right:"60%"
-    })
+    function $active(activePosition){
+        $(".nav-list a").removeClass("clickActive")
+        $(".nav-list a").eq(activePosition).addClass("clickActive")
+        $(".nav-list").removeClass("nav-position")
+    }
+
+    
 ////////////////////////////////////////////////////////////////////
     function Position(){
         $webSectionTop=$("section").eq(1).offset().top
@@ -81,12 +111,13 @@ $(document).ready(function(){
         $webWidth=$(".web-container1").width();
         console.log(".web-container1 : "+$webWidth)
         $windowHeight=$(window).height();
-        $webPosition=(($(window).width()-$webWidth)/2)/$(window).width()*100-5
-        console.log("포지션 : "+$webPosition+"%")
+        $webPosition=(($(window).width()-$webWidth)/2)
+        console.log("포지션 : "+$webPosition)
         // $webMoveLeft=$(window).width()/$(window).width()*100;
-        $webMoveLeft=parseInt( $(".web-container1").css("left") );
+        $webMoveLeft= parseInt($(".web-container1").css("left")) ;
         $lastWebLeft=$webMoveLeft;
-        $webMoveRight=parseInt( $(".web-container2").css("right") );
+        console.log("$lastWebLeft : "+$lastWebLeft)
+        $webMoveRight=parseInt( $(".web-container2").css("right"));
         console.log("$webMoveLeft : "+$webMoveLeft)
         console.log("$webMoveRight : "+$webMoveRight)
         $webTop=$("section").eq(1).offset().top+$(".web-container1").offset().top
@@ -121,23 +152,23 @@ $(document).ready(function(){
                 
                 
             }
-            if(yScroll+500>$webSectionTop){
+            if(yScroll+100>$webSectionTop){
                 // console.log("동작");
-                $webMoveLeft-=1;
-                $webMoveRight-=1;
+                $webMoveLeft-=10;
+                $webMoveRight-=10;
                 $webOpacity+=0.03
 
-                if($webMoveLeft<=$webPosition  ){
+                if($webMoveLeft<=$webPosition || $webMoveRight<=$webPosition+100 ){
                     $webMoveLeft=$webPosition;
-                    $webMoveRight=$webPosition; 
+                    $webMoveRight=$webPosition+100; 
                     $webOpacity=1;
                 }
                 $(".web-container1").css({
-                    left:$webMoveLeft+"%",
+                    left:$webMoveLeft,
                     opacity:$webOpacity
                 })
                 $(".web-container2").css({
-                    right:$webMoveRight+"%",
+                    right:$webMoveRight,
                     opacity:$webOpacity
                 })
                 
@@ -164,23 +195,22 @@ $(document).ready(function(){
                     "opacity":$opacity
                 })
             }
-            if(yScroll+500<$webSectionTop+500){
+            if(yScroll<$webSectionTop+500){
                 // console.log("동작");
-                $webMoveLeft+=1
-                $webMoveRight+=1
+                $webMoveLeft+=10
+                $webMoveRight+=10
                 $webOpacity-=0.03;
 
                 if($webMoveLeft>=$lastWebLeft){
                     $webMoveLeft=$lastWebLeft;
                     $webOpacity=0;
-                    console.log("크다")
                 }
                 $(".web-container1").css({
-                    left:$webMoveLeft+"%",
+                    left:$webMoveLeft,
                     opacity:$webOpacity
                 })
                 $(".web-container2").css({
-                    right:$webMoveRight+"%",
+                    right:$webMoveRight,
                     opacity:$webOpacity
                 })
                 console.log("webPosition : "+$webPosition)
@@ -190,9 +220,26 @@ $(document).ready(function(){
 
         }
         $lastScroll=yScroll;
-        
     })
     
-    
+    var arrayPosition=[];
+    for (i=0; i<$("section").length; i++){
+        // console.log("i : " +i)
+        arrayPosition[i]=$("section").eq(i).offset().top
+        // console.log("sTop : "+arrayPosition[i] )
+    }
+    $("section").each(function(index){
+        $(window).scroll(function(){
+            var poscroll=$(window).scrollTop();
+            if(poscroll>=arrayPosition[index]){
+                $position=index;
+                $active($position)
+                console.log("activePosition : "+$position)
+            }
+            
+        })
+    })
+
+
 })//jqeuery 끝
     

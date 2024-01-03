@@ -146,9 +146,9 @@ header{
     font-size:0;
 }
 
-.section{
+/* section{
     height:3000px;
-}
+} */
 #web{
     /* background:#ccc; */
     background:url(../images/m-r1.jpg) no-repeat center fixed;
@@ -167,18 +167,18 @@ header{
 .web-container1,
 .web-container2{
     width:80%;
-    max-width:1000px;
+    /* max-width:1000px; */
     position:fixed;
     display:flex;
     justify-content: space-around;
     top:30%;
-    left:50%;
+    /* left:50%; */
     opacity:0;
 }
 .web-container2{
     top:60%;
     left:inherit;
-    right:50%;
+    /* right:50%; */
 }
 .web-box{
     width:22%;
