@@ -51,6 +51,7 @@ $(document).ready(function(){
                 console.log("다음요소, 현재요소")
                 if(index>$position){
                     $webOpacity=1;
+                    $opacity=0;
                 }
                 $hash=$(this.hash).offset().top;
                 $webMoveLeft=$webPosition
@@ -67,9 +68,10 @@ $(document).ready(function(){
                 },1000)
             }else{
                 console.log("이전요소")
-                if(index==0){
+                if(index<=0){
                     $hash=0
                     $webOpacity=0;
+                    $opacity=1;
                 }else{
                     var count=$position-index
                     $hash=$(this.hash).offset().top-($(this.hash).prev().height()*count)
@@ -201,7 +203,7 @@ $(document).ready(function(){
                 $webMoveRight+=10
                 $webOpacity-=0.03;
 
-                if($webMoveLeft>=$lastWebLeft){
+                if($webMoveLeft>=$lastWebLeft || yScroll<=0){
                     $webMoveLeft=$lastWebLeft;
                     $webOpacity=0;
                 }
